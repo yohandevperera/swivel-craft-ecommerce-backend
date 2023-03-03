@@ -9,11 +9,22 @@ import {
   Logger,
 } from '@nestjs/common';
 import { EmployeesService } from './employees.service';
-import { CreateUpdateEmployee } from './dto/create-update-employee.dto';
 import { errorRes, successRes } from 'src/utls/response.formatter';
 import _ = require('lodash');
+import { UsePipes } from '@nestjs/common/decorators';
+import { ValidationPipe } from '@nestjs/common/pipes';
+import {
+  ApiBody,
+  ApiCreatedResponse,
+  ApiOkResponse,
+  ApiParam,
+} from '@nestjs/swagger/dist';
+import {
+  EmployeeDto,
+  EmployeeParamsDto,
+} from './dto/create-update-employee.dto';
 
-@Controller('employees')
+@Controller('api/employees')
 export class EmployeesController {
   constructor(
     private readonly employeesService: EmployeesService,
@@ -21,13 +32,13 @@ export class EmployeesController {
   ) {}
 
   @Post()
-  create(@Body() CreateUpdateEmployee: CreateUpdateEmployee) {
+  @UsePipes(new ValidationPipe())
+  @ApiCreatedResponse({ description: 'Employee created successfully' })
+  @ApiBody({ type: EmployeeDto })
+  create(@Body() CreateUpdateEmployee: EmployeeDto) {
     try {
       const createdEmployee =
         this.employeesService.create(CreateUpdateEmployee);
-      if (_.isEmpty(createdEmployee)) {
-        return errorRes('Error creating employee');
-      }
       return successRes('Employee created successfully', createdEmployee);
     } catch (error) {
       this.logger.error((error as Error).message);
@@ -36,6 +47,7 @@ export class EmployeesController {
   }
 
   @Get()
+  @ApiOkResponse({ description: 'Employees fetching successfully' })
   async findAll() {
     try {
       const employees = await this.employeesService.findAll();
@@ -50,57 +62,16 @@ export class EmployeesController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
+  @ApiOkResponse({ description: 'Employee fetched successfully' })
+  @ApiParam({
+    type: String,
+    name: 'id'
+  })
+  async findOne(@Param() params: EmployeeParamsDto) {
     try {
-      const employees = await this.employeesService.findOne(+id);
+      const employees = await this.employeesService.findOne(params.id);
       if (_.isEmpty(employees)) {
         return errorRes('Error fetching employee');
-      }
-      return successRes('Employee created successfully', employees);
-    } catch (error) {
-      this.logger.error((error as Error).message);
-      return errorRes((error as Error).message);
-    }
-  }
-
-  @Patch(':id')
-  async update(
-    @Param('id') id: string,
-    @Body() CreateUpdateEmployee: CreateUpdateEmployee,
-  ) {
-    try {
-      const updatedEmployee = await this.employeesService.update(
-        +id,
-        CreateUpdateEmployee,
-      );
-      if (_.isEmpty(updatedEmployee)) {
-        return errorRes('Error updating employee');
-      }
-    } catch (error) {
-      this.logger.error((error as Error).message);
-      return errorRes((error as Error).message);
-    }
-  }
-
-  @Delete(':id')
-  async remove(@Param('id') id: string) {
-    try {
-      const deletedEmployee = this.employeesService.remove(+id);
-      if (_.isEmpty(deletedEmployee)) {
-        return errorRes('Error removing employee');
-      }
-    } catch (error) {
-      this.logger.error((error as Error).message);
-      return errorRes((error as Error).message);
-    }
-  }
-
-  @Get(':orderType')
-  async sortAllEmployees(@Param('order') order: any) {
-    try {
-      const employees = await this.employeesService.sortAllEmployees(order);
-      if (_.isEmpty(employees)) {
-        return errorRes('Error fetching employees');
       }
       return successRes('Employee fetched successfully', employees);
     } catch (error) {
@@ -109,14 +80,40 @@ export class EmployeesController {
     }
   }
 
-  @Get(':name')
-  async searchEmployees(@Param('name') name: string) {
+  @Patch(':id')
+  @UsePipes(new ValidationPipe())
+  @ApiCreatedResponse({ description: 'Employee updated successfully' })
+  @ApiParam({
+    type: String,
+    name: 'id'
+  })
+  @ApiBody({ type: EmployeeDto })
+  async update(
+    @Param() params: EmployeeParamsDto,
+    @Body() CreateUpdateEmployee: EmployeeDto,
+  ) {
     try {
-      const employees = await this.employeesService.searchEmployees(name);
-      if (_.isEmpty(employees)) {
-        return errorRes('Error searching employees');
-      }
-      return successRes('Employee searched successfully', employees);
+      const updatedEmployee = await this.employeesService.update(
+        params.id,
+        CreateUpdateEmployee,
+      );
+      return successRes('Employee updated successfully', updatedEmployee);
+    } catch (error) {
+      this.logger.error((error as Error).message);
+      return errorRes((error as Error).message);
+    }
+  }
+
+  @Delete(':id')
+  @ApiOkResponse({ description: 'Employee removed successfully' })
+  @ApiParam({
+    type: String,
+    name: 'id'
+  })
+  async remove(@Param() params: EmployeeParamsDto) {
+    try {
+      const deletedEmployee = this.employeesService.remove(params.id);
+      return successRes('Employee removed successfully', deletedEmployee);
     } catch (error) {
       this.logger.error((error as Error).message);
       return errorRes((error as Error).message);

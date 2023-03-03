@@ -16,5 +16,6 @@ import { Logger } from '@nestjs/common/services';
   ],
   controllers: [EmployeesController],
   providers: [EmployeesService, Logger],
+  exports:[EmployeesService]
 })
 export class EmployeesModule {}

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUpdateEmployee } from './dto/create-update-employee.dto';
+import { CreateUpdateEmployee } from '../models/employee.model';
 import { InjectModel } from '@nestjs/mongoose';
 import { Employee, EmployeeDocument } from 'src/schemas/employee.schema';
 import { Model } from 'mongoose';
@@ -10,7 +10,9 @@ export class EmployeesService {
     @InjectModel(Employee.name) private employeeModel: Model<EmployeeDocument>,
   ) {}
 
-  async create(CreateUpdateEmployee: CreateUpdateEmployee): Promise<Employee> {
+  async create(
+    CreateUpdateEmployee: Omit<CreateUpdateEmployee, 'id' | "photo">,
+  ): Promise<Employee> {
     return new this.employeeModel(CreateUpdateEmployee).save();
   }
 
@@ -18,28 +20,31 @@ export class EmployeesService {
     return this.employeeModel.find();
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     return this.employeeModel.findById(id);
   }
 
-  async update(id: number, CreateUpdateEmployee: CreateUpdateEmployee) {
+  async update(
+    id: string,
+    CreateUpdateEmployee: Omit<CreateUpdateEmployee, 'id'| "photo">,
+  ) {
     return this.employeeModel.updateOne(
       { id },
       { $set: { ...CreateUpdateEmployee } },
     );
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     return this.employeeModel.deleteOne({ id });
   }
 
-  async sortAllEmployees(orderType: 'ascend' | 'descend') {
-    return this.employeeModel
-      .find()
-      .sort({ firstname: orderType == 'ascend' ? 'asc' : 'desc' });
+  async bulkInsertEmployees(
+    employees: Omit<CreateUpdateEmployee, 'id' | 'gender'>[],
+  ) {
+    return this.employeeModel.insertMany(employees);
   }
 
-  async searchEmployees(firstName: string) {
-    return this.employeeModel.findOne({ firstname: firstName });
+  async deleteAllEmployees() {
+    return this.employeeModel.remove({});
   }
 }

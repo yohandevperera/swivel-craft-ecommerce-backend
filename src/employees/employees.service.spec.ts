@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { EmployeesService } from './employees.service';
+import * as sinon from 'sinon';
 
 describe('EmployeesService', () => {
   let service: EmployeesService;
