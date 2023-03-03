@@ -34,6 +34,22 @@ Install the dependances using
 $ npm install or yarn 
 ```
 
+## Setting up environment variables
+
+> copy the .env.example file and rename it to .env 
+
+
+## Running seeders 
+
+```bash
+# to seed all employees
+$ npx nestjs-command seed:employees
+
+# to remove all employees
+$ npx nestjs-command remove:employees
+
+```
+
 ## Running the app
 
 ```bash
