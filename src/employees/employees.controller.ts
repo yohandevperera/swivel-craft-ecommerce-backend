@@ -9,7 +9,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import { EmployeesService } from './employees.service';
-import { errorRes, successRes } from 'src/utls/response.formatter';
+import { errorRes, successRes } from '../../src/utls/response.formatter';
 import _ = require('lodash');
 import { UsePipes } from '@nestjs/common/decorators';
 import { ValidationPipe } from '@nestjs/common/pipes';
@@ -35,10 +35,11 @@ export class EmployeesController {
   @UsePipes(new ValidationPipe())
   @ApiCreatedResponse({ description: 'Employee created successfully' })
   @ApiBody({ type: EmployeeDto })
-  create(@Body() CreateUpdateEmployee: EmployeeDto) {
+  async create(@Body() CreateUpdateEmployee: EmployeeDto) {
     try {
-      const createdEmployee =
-        this.employeesService.create(CreateUpdateEmployee);
+      const createdEmployee = await this.employeesService.create(
+        CreateUpdateEmployee,
+      );
       return successRes('Employee created successfully', createdEmployee);
     } catch (error) {
       this.logger.error((error as Error).message);
@@ -65,7 +66,7 @@ export class EmployeesController {
   @ApiOkResponse({ description: 'Employee fetched successfully' })
   @ApiParam({
     type: String,
-    name: 'id'
+    name: 'id',
   })
   async findOne(@Param() params: EmployeeParamsDto) {
     try {
@@ -85,7 +86,7 @@ export class EmployeesController {
   @ApiCreatedResponse({ description: 'Employee updated successfully' })
   @ApiParam({
     type: String,
-    name: 'id'
+    name: 'id',
   })
   @ApiBody({ type: EmployeeDto })
   async update(
@@ -108,11 +109,11 @@ export class EmployeesController {
   @ApiOkResponse({ description: 'Employee removed successfully' })
   @ApiParam({
     type: String,
-    name: 'id'
+    name: 'id',
   })
   async remove(@Param() params: EmployeeParamsDto) {
     try {
-      const deletedEmployee = this.employeesService.remove(params.id);
+      const deletedEmployee = await this.employeesService.remove(params.id);
       return successRes('Employee removed successfully', deletedEmployee);
     } catch (error) {
       this.logger.error((error as Error).message);
