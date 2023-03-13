@@ -9,7 +9,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import { EmployeesService } from './employees.service';
-import { errorRes, successRes } from '../../src/utls/response.formatter';
+import { errorRes, successRes } from '../utls/response.formatter';
 import _ = require('lodash');
 import { UsePipes } from '@nestjs/common/decorators';
 import { ValidationPipe } from '@nestjs/common/pipes';
