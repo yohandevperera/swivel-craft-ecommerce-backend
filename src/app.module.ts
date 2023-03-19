@@ -7,13 +7,17 @@ import { AppService } from './app.service';
 import { EmployeesModule } from './employees/employees.module';
 import { EmployeeCommand } from './utls/employee.command';
 
+const developmentDBURL = `mongodb://${process.env.DATABASE_USERNAME}:${process.env.DATABASE_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/`;
+
 @Module({
   //'mongodb+srv://john:123@cluster0.5qfa3.mongodb.net/employee-manager-db?retryWrites=true&w=majority'
   imports: [
     CommandModule,
     EmployeesModule,
     MongooseModule.forRoot(
-      `mongodb://${process.env.DATABASE_USERNAME}:${process.env.DATABASE_PASSWORD}@127.0.0.1:27017/`,
+      process.env.SERVER_ENV == 'development'
+        ? developmentDBURL
+        : process.env.MONOGO_URL,
     ),
   ],
   controllers: [AppController],
