@@ -5,6 +5,12 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Employee, EmployeeSchema } from 'src/schemas/employee.schema';
 import { Logger } from '@nestjs/common/services';
 
+/**
+ * Usage and Description - This file will act as a wrapper to
+ * combine the model functions, service functions and controller functions
+ * 
+ **/
+
 @Module({
   imports: [
     MongooseModule.forFeature([
@@ -16,6 +22,6 @@ import { Logger } from '@nestjs/common/services';
   ],
   controllers: [EmployeesController],
   providers: [EmployeesService, Logger],
-  exports:[EmployeesService]
+  exports: [EmployeesService],
 })
 export class EmployeesModule {}

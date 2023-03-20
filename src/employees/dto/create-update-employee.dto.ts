@@ -9,6 +9,11 @@ import {
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
+/**
+ * Usage and Description - This file will act as a main employee type
+ * as well as the validation rules file for the API validations
+ **/
+
 enum Gender {
   M,
   F,

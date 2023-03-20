@@ -4,6 +4,12 @@ import { systemLogger } from './utls/logger';
 import { DocumentBuilder } from '@nestjs/swagger';
 import { SwaggerModule } from '@nestjs/swagger/dist';
 
+/**
+ * Usage and Description - This file will act as the main
+ * bootstrap instance to initiate a server instance
+ *
+ **/
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: systemLogger,

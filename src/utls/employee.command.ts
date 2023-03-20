@@ -4,9 +4,22 @@ import { EmployeesService } from '../employees/employees.service';
 import * as employees from '../utls/employees.json';
 import _ = require('lodash');
 
+/**
+ * Usage and Description - This file will be used as custom command file
+ * that could serve the purpose as a seeder to seed all the employees in the
+ * json file as well as to remove all the employees using custom commands
+ *
+ **/
+
 @Injectable()
 export class EmployeeCommand {
   private readonly remappedEmployees = [];
+
+  /**
+   * Usage and Description - the constructor will map all the employees
+   * to work with the defined mongoDB model
+   *
+   **/
   constructor(private readonly employeeService: EmployeesService) {
     this.remappedEmployees = employees.map((employee) => ({
       firstname: employee.first_name,
@@ -18,6 +31,11 @@ export class EmployeeCommand {
     }));
   }
 
+  /**
+   * Usage and Description - Using this function all the employee data
+   * in the JSON file will be inserted to the mongooese document
+   *
+   **/
   @Command({
     command: 'seed:employees',
     describe: 'will insert all the meta data',
@@ -41,6 +59,11 @@ export class EmployeeCommand {
     }
   }
 
+  /**
+   * Usage and Description - Using this function all the employee data
+   * in mongooese document will be removed
+   *
+   **/
   @Command({
     command: 'remove:employees',
     describe: 'will delete all the meta data',

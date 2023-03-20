@@ -7,6 +7,12 @@ import {
   ConsoleTransportInstance,
 } from 'winston/lib/winston/transports';
 
+/**
+ * Usage and Description - This file will be used as custom logger
+ * to handle all error messages, warnings and exceptions
+ *
+ **/
+
 interface LoggerConfig {
   format: Format;
   transports: Array<FileTransportInstance | ConsoleTransportInstance>;
@@ -17,12 +23,15 @@ interface LogFileTransportOptions {
   errorFile: FileTransportOptions;
 }
 
-type LogLevels = 'info' | 'error' | 'alert' | 'warning' | 'debug';
-
 const logFormat = winston.format.printf(
   (info: winston.Logform.TransformableInfo) => `${info.level}: ${info.message}`,
 );
 
+/**
+ * Usage and Description - This variable consists of the config data
+ * needed to create the log files
+ *
+ **/
 const logTransportOptions: LogFileTransportOptions = {
   infoFile: {
     level: 'info',
@@ -42,6 +51,11 @@ const logTransportOptions: LogFileTransportOptions = {
   },
 };
 
+/**
+ * Usage and Description - This variable overall config data
+ * needed to create the log files
+ *
+ **/
 const loggerConfig: LoggerConfig = {
   format: winston.format.combine(
     winston.format.label({
@@ -49,7 +63,7 @@ const loggerConfig: LoggerConfig = {
     }),
     winston.format.timestamp(),
     winston.format.colorize(),
-    logFormat
+    logFormat,
   ),
   transports: [
     new winston.transports.File(logTransportOptions.infoFile),

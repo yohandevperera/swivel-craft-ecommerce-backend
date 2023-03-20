@@ -1,13 +1,3 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  Logger,
-} from '@nestjs/common';
 import { EmployeesService } from './employees.service';
 import { errorRes, successRes } from '../utls/response.formatter';
 import _ = require('lodash');
@@ -23,6 +13,21 @@ import {
   EmployeeDto,
   EmployeeParamsDto,
 } from './dto/create-update-employee.dto';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Logger,
+} from '@nestjs/common';
+
+/**
+ * Usage and Description - This file will act as a controller file which
+ * will act as a mediator between the defined service methods and api routes
+ **/
 
 @Controller('api/employees')
 export class EmployeesController {
@@ -31,6 +36,11 @@ export class EmployeesController {
     private readonly logger: Logger,
   ) {}
 
+  /**
+   * Usage - This method will be used to create new employees
+   *
+   * @parms CreateUpdateEmployee @typedef EmployeeDto
+   */
   @Post()
   @UsePipes(new ValidationPipe())
   @ApiCreatedResponse({ description: 'Employee created successfully' })
@@ -47,6 +57,10 @@ export class EmployeesController {
     }
   }
 
+  /**
+   * Usage - This method will be used to fetch all employees
+   *
+   */
   @Get()
   @ApiOkResponse({ description: 'Employees fetching successfully' })
   async findAll() {
@@ -62,6 +76,12 @@ export class EmployeesController {
     }
   }
 
+  /**
+   * Usage - This method will be used to fetch an employee for a given
+   * employee id
+   *
+   * @parms params @typedef EmployeeParamsDto
+   */
   @Get(':id')
   @ApiOkResponse({ description: 'Employee fetched successfully' })
   @ApiParam({
@@ -81,6 +101,13 @@ export class EmployeesController {
     }
   }
 
+  /**
+   * Usage - This method will be used to update an employee for a given
+   * employee id
+   *
+   * @parms params @typedef EmployeeParamsDto
+   * @parms CreateUpdateEmployee @typedef EmployeeDto
+   */
   @Patch(':id')
   @UsePipes(new ValidationPipe())
   @ApiCreatedResponse({ description: 'Employee updated successfully' })
@@ -105,6 +132,12 @@ export class EmployeesController {
     }
   }
 
+  /**
+   * Usage - This method will be used to remove an employee for a given
+   * employee id
+   *
+   * @parms params @typedef EmployeeParamsDto
+   */
   @Delete(':id')
   @ApiOkResponse({ description: 'Employee removed successfully' })
   @ApiParam({
@@ -115,6 +148,60 @@ export class EmployeesController {
     try {
       const deletedEmployee = await this.employeesService.remove(params.id);
       return successRes('Employee removed successfully', deletedEmployee);
+    } catch (error) {
+      this.logger.error((error as Error).message);
+      return errorRes((error as Error).message);
+    }
+  }
+
+  /**
+   * Usage - This method will be used to find an employee for a given
+   * employee firstname
+   *
+   * @parms params @typedef String
+   */
+  @Get('find-by-name/:name')
+  @ApiOkResponse({ description: 'Employee fetched successfully' })
+  @ApiParam({
+    type: String,
+    name: 'name',
+  })
+  async findOneByName(@Param() params: any) {
+    try {
+      const employees = await this.employeesService.findEmployeeByName(
+        params.name,
+      );
+      if (_.isEmpty(employees)) {
+        return errorRes('Error fetching employee');
+      }
+      return successRes('Employee fetched successfully', employees);
+    } catch (error) {
+      this.logger.error((error as Error).message);
+      return errorRes((error as Error).message);
+    }
+  }
+
+  /**
+   * Usage - This method will be used to sort all the employees for a given
+   * order type 
+   * 
+   * Ex - asc or desc
+   * 
+   * @parms params @typedef String
+   */
+  @Get('sort-employees/:type')
+  @ApiOkResponse({ description: 'Employee fetched successfully' })
+  @ApiParam({
+    type: String,
+    name: 'type ',
+  })
+  async sortEmployees(@Param() params: any) {
+    try {
+      const employees = await this.employeesService.sortEmployees(params.type);
+      if (_.isEmpty(employees)) {
+        return errorRes('Error fetching employees');
+      }
+      return successRes('Employees fetched successfully', employees);
     } catch (error) {
       this.logger.error((error as Error).message);
       return errorRes((error as Error).message);

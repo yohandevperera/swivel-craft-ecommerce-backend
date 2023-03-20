@@ -6,12 +6,18 @@ import { employeeStub } from './stubs/employee.stub';
 import { Logger } from '@nestjs/common/services';
 import { employeesStub } from './stubs/employees.stub';
 
+/**
+ * Usage and Description - This file will consists all the test cases
+ * that will run to check all the controller functions
+ **/
+
 jest.mock('../employees.service');
 
 describe('Employees Controller Unit Test', () => {
   let employeesController: EmployeesController;
   let employeesService: EmployeesService;
 
+  // This function will run as a initializer to create the testing environment
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
       controllers: [EmployeesController],
@@ -23,6 +29,7 @@ describe('Employees Controller Unit Test', () => {
     jest.clearAllMocks();
   });
 
+  // This test case will validate if a single employee can be retrieved by giving an employee id
   describe('Get a single employee', () => {
     describe('when findOne is called', () => {
       let employee: any;
@@ -38,6 +45,7 @@ describe('Employees Controller Unit Test', () => {
     });
   });
 
+  // This test case will validate if all employees can be retrieved
   describe('Get all employees', () => {
     describe('when findAll is called', () => {
       let employee: any;
@@ -53,6 +61,7 @@ describe('Employees Controller Unit Test', () => {
     });
   });
 
+  // This test case will validate if a  employee can be created
   describe('Create employee', () => {
     describe('when create is called', () => {
       let employee: any;
@@ -68,6 +77,7 @@ describe('Employees Controller Unit Test', () => {
     });
   });
 
+  // This test case will validate if a  employee can be updated
   describe('Update employee', () => {
     describe('when update is called', () => {
       let employee: any;
@@ -86,6 +96,7 @@ describe('Employees Controller Unit Test', () => {
     });
   });
 
+  // This test case will validate if a  employee can be removed
   describe('Remove employee', () => {
     describe('when remove is called', () => {
       let employee: any;

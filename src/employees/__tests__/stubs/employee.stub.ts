@@ -1,5 +1,10 @@
 import { EmployeeType } from 'src/employees/employee.type';
 
+/**
+ * Usage and Description - This file will return a temporary employee object
+ * which will be used in the unit testing for to test the service functions
+ **/
+
 export const employeeStub = (): EmployeeType => ({
   email: 'Ewald.Kunde@gmail.com',
   firstname: 'Lindsay',
