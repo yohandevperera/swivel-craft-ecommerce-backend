@@ -4,8 +4,6 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { CommandModule } from 'nestjs-command';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { EmployeesModule } from './employees/employees.module';
-import { EmployeeCommand } from './utls/employee.command';
 import { CraftCategoriesCommand } from './utls/seed-commands/craft-category.command';
 import { CraftCategoriesModule } from './craft-categories/craft-categories.module';
 
@@ -26,10 +24,9 @@ const developmentDBURL = `mongodb://${process.env.DATABASE_USERNAME}:${process.e
         : process.env.MONOGO_URL,
     ),
     CommandModule,
-    EmployeesModule,
     CraftCategoriesModule,
   ],
   controllers: [AppController],
-  providers: [AppService, EmployeeCommand, CraftCategoriesCommand],
+  providers: [AppService, CraftCategoriesCommand],
 })
 export class AppModule {}

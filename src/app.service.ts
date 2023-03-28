@@ -9,6 +9,6 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class AppService {
   getHello(): string {
-    return 'Welcome to the Employee Manager Server';
+    return 'Welcome to the Craft E-commerce Server';
   }
 }

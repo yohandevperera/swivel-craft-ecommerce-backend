@@ -16,8 +16,10 @@ async function bootstrap() {
   });
   app.enableCors();
   const options = new DocumentBuilder()
-    .setTitle('Employee Manager API')
-    .setDescription('All APIs needed for the employee manager server')
+    .setTitle('Craft E-commerce API')
+    .setDescription(
+      'All APIs needed to manage the Craft E-commerce application ',
+    )
     .setVersion('1.0.0')
     .build();
   const document = SwaggerModule.createDocument(app, options);
