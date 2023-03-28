@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { HydratedDocument, Mongoose } from 'mongoose';
+import mongoose, { HydratedDocument } from 'mongoose';
 
 /**
  * Usage and Description - This file will also act skeleton for to create

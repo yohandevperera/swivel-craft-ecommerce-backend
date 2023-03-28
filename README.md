@@ -1,5 +1,5 @@
 ## Description
-Employee-manager nest js backend.
+Craft E-Commerce nest js backend.
 
 **Prerequisites**
 | Tool | Version |

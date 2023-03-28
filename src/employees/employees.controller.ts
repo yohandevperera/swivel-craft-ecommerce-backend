@@ -132,12 +132,7 @@ export class EmployeesController {
     }
   }
 
-  /**
-   * Usage - This method will be used to remove an employee for a given
-   * employee id
-   *
-   * @parms params @typedef EmployeeParamsDto
-   */
+  
   @Delete(':id')
   @ApiOkResponse({ description: 'Employee removed successfully' })
   @ApiParam({

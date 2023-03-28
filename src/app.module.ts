@@ -6,6 +6,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { EmployeesModule } from './employees/employees.module';
 import { EmployeeCommand } from './utls/employee.command';
+import { CraftCategoriesCommand } from './utls/seed-commands/craft-category.command';
+import { CraftCategoriesModule } from './craft-categories/craft-categories.module';
 
 /**
  * Usage and Description - This file will act as the main
@@ -17,17 +19,17 @@ import { EmployeeCommand } from './utls/employee.command';
 const developmentDBURL = `mongodb://${process.env.DATABASE_USERNAME}:${process.env.DATABASE_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/`;
 
 @Module({
-  //'mongodb+srv://john:123@cluster0.5qfa3.mongodb.net/employee-manager-db?retryWrites=true&w=majority'
   imports: [
-    CommandModule,
-    EmployeesModule,
     MongooseModule.forRoot(
       process.env.SERVER_ENV == 'development'
         ? developmentDBURL
         : process.env.MONOGO_URL,
     ),
+    CommandModule,
+    EmployeesModule,
+    CraftCategoriesModule,
   ],
   controllers: [AppController],
-  providers: [AppService, EmployeeCommand],
+  providers: [AppService, EmployeeCommand, CraftCategoriesCommand],
 })
 export class AppModule {}
