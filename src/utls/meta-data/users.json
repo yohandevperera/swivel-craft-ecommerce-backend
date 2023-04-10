@@ -1,0 +1,23 @@
+[
+  {
+    "firstname": "James",
+    "email": "james@123.com",
+    "phone": "011123123",
+    "password": "james@123",
+    "userRole": "USER"
+  },
+  {
+    "firstname": "Tom",
+    "email": "Tom@123.com",
+    "phone": "011123123",
+    "password": "Tom@123",
+    "userRole": "USER"
+  },
+  {
+    "firstname": "Admin",
+    "email": "admin@123.com",
+    "phone": "011123123",
+    "password": "admin@123",
+    "userRole": "ADMIN"
+  }
+]

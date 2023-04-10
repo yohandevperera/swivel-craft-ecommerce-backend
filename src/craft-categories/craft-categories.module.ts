@@ -3,7 +3,10 @@ import { CraftCategoriesService } from './craft-categories.service';
 import { CraftCategoriesController } from './craft-categories.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Logger } from '@nestjs/common/services';
-import { CraftCategory, CraftCategorySchema } from 'src/schemas/craft.category';
+import {
+  CraftCategory,
+  CraftCategorySchema,
+} from 'src/schemas/craft.category.schema';
 
 /**
  * Usage and Description - This file will act as a wrapper to

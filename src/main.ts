@@ -1,8 +1,9 @@
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { systemLogger } from './utls/logger';
 import { DocumentBuilder } from '@nestjs/swagger';
 import { SwaggerModule } from '@nestjs/swagger/dist';
+import { RouteGuard } from './auth/route.guard';
 
 /**
  * Usage and Description - This file will act as the main
@@ -15,6 +16,9 @@ async function bootstrap() {
     logger: systemLogger,
   });
   app.enableCors();
+  const reflector = app.get(Reflector);
+
+  app.useGlobalGuards(new RouteGuard(reflector));
   const options = new DocumentBuilder()
     .setTitle('Craft E-commerce API')
     .setDescription(

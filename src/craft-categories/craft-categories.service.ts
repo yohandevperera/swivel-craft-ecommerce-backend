@@ -4,7 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import {
   CraftCategory,
   CraftCategoryDocument,
-} from 'src/schemas/craft.category';
+} from 'src/schemas/craft.category.schema';
 import { Model } from 'mongoose';
 
 /**
