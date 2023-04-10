@@ -16,24 +16,17 @@ export class RolesGuard implements CanActivate {
       [context.getHandler(), context.getClass()],
     );
     const request = context.switchToHttp().getRequest();
+
+    const isPublic = this.reflector.get<boolean>(
+      'allowUnauthorizedRequest',
+      context.getHandler(),
+    );
+    console.log(request.headers);
+
     if (!requiredRoles) {
       return true;
     }
-    const test = this.reflector.getAllAndMerge<any>(
-      'allowUnauthorizedRequest',
-      [context.getHandler(), context.getClass()],
-    );
-    console.log(test);
-    console.log(request.user);
-    // console.log(
-    //   !_.isUndefined(request.user)
-    //     ? _.includes(requiredRoles, request.user?.userRole)
-    //     : false,
-    // );
 
-    // return !_.isUndefined(user)
-    //   ? _.includes(requiredRoles, user?.userRole)
-    //   : false;
     return true;
   }
 }

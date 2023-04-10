@@ -6,16 +6,9 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { UserDto, UserParamsDto } from './dto/create-update-user.dto';
-import { AuthGuard } from '@nestjs/passport';
-import { Roles } from 'src/auth/roles.decorator';
-import { RolesForGuard } from 'src/auth/roles';
-import { RolesGuard } from 'src/auth/roles.guard';
-
-// change this
+import { UserDto } from './dto/create-update-user.dto';
 
 @Controller('api/users')
 export class UserController {
@@ -27,8 +20,6 @@ export class UserController {
   }
 
   @Get()
-  @UseGuards(RolesGuard)
-  @Roles(RolesForGuard.ADMIN)
   findAll() {
     return this.userService.findAll();
   }
