@@ -11,6 +11,8 @@ import { UserCommand } from './utls/seed-commands/user.command';
 import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from './auth/roles.guard';
+import { CraftsModule } from './crafts/crafts.module';
+import { CraftsCommand } from './utls/seed-commands/craft.command';
 
 /**
  * Usage and Description - This file will act as the main
@@ -32,8 +34,9 @@ const developmentDBURL = `mongodb://${process.env.DATABASE_USERNAME}:${process.e
     CraftCategoriesModule,
     UserModule,
     AuthModule,
+    CraftsModule,
   ],
   controllers: [AppController],
-  providers: [AppService, CraftCategoriesCommand, UserCommand],
+  providers: [AppService, CraftCategoriesCommand, UserCommand, CraftsCommand],
 })
 export class AppModule {}
