@@ -17,7 +17,7 @@ Craft E-Commerce nest js backend.
 
 Clone the repository using
 ```sh
-git clone git@github.com:yohandevperera/swivel-employee-manager-backend.git
+git clone git@github.com:yohandevperera/swivel-craft-ecommerce-backend.git
 ```
 Change the directory to the server using
 ```sh
@@ -43,11 +43,23 @@ $ npm install or yarn
 ## Running seeders 
 
 ```bash
-# to seed all employees
-$ npx nestjs-command seed:employees
+# to seed all craft-categories
+$ npx nestjs-command seed:craft-categories
 
-# to remove all employees
-$ npx nestjs-command remove:employees
+# to remove all craft-categories
+$ npx nestjs-command remove:craft-categories
+
+# to seed all crafts
+$ npx nestjs-command seed:crafts
+
+# to remove all crafts
+$ npx nestjs-command remove:crafts
+
+# to seed all users
+$ npx nestjs-command seed:users
+
+# to remove all users
+$ npx nestjs-command remove:users
 
 ```
 
@@ -83,10 +95,10 @@ $ npm run test:cov
 
 ```bash
 # Build the server docker image
- docker build -t swviel-employee-manager-backend --network=host .
+ docker build -t swviel-craft-e-commerce-backend --network=host .
  
 # Run the built docker image on local to validate if the container works
- docker run -p 8000:80 swviel-employee-manager-backend
+ docker run -p 8000:80 swviel-craft-e-commerce-backend
  
 ```
 
@@ -106,10 +118,10 @@ https://cloud.google.com/sdk/docs/install
  gcloud auth login
  
  # Create a docker tag
- docker tag swviel-employee-manager-backend gcr.io/{project-name}/swviel-employee-manager-backend
+ docker tag swviel-employee-manager-backend gcr.io/{project-name}/swviel-craft-e-commerce-backend
  
  # Push the docker image to the container registry
- docker push gcr.io/{project-name}/swviel-employee-manager-backend
+ docker push gcr.io/{project-name}/swviel-craft-e-commerce-backend
  
 ```
 
