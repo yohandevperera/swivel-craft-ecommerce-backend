@@ -45,7 +45,7 @@ export class CraftsCommand {
    *
    **/
   @Command({
-    command: 'remove:craft',
+    command: 'remove:crafts',
     describe: 'will delete all the craft meta data',
   })
   async removeAllCrafts() {

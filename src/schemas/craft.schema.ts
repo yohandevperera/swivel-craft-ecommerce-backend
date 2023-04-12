@@ -12,6 +12,7 @@ export type CraftDocument = HydratedDocument<Craft>;
 
 @Schema({ timestamps: true })
 export class Craft {
+  
   @Prop()
   name: string;
 
@@ -28,7 +29,7 @@ export class Craft {
   price: number;
 
   @Prop()
-  photo: Buffer;
+  photo: string;
 }
 
 export const CraftSchema = SchemaFactory.createForClass(Craft);
