@@ -18,5 +18,5 @@ RUN yarn --production
 RUN yarn add yargs
 COPY --from=build /app/dist ./dist
 COPY .env.example .env
-RUN yarn seed:employees
+RUN yarn seed:all
 CMD yarn start
