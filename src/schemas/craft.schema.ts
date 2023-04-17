@@ -12,7 +12,6 @@ export type CraftDocument = HydratedDocument<Craft>;
 
 @Schema({ timestamps: true })
 export class Craft {
-  
   @Prop()
   name: string;
 

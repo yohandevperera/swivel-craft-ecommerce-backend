@@ -61,6 +61,12 @@ $ npx nestjs-command seed:users
 # to remove all users
 $ npx nestjs-command remove:users
 
+# to seed all meta data
+$ npx nestjs-command seed:all
+
+# to remove all meta data
+$ npx nestjs-command remove:all
+
 ```
 
 ## Running the app

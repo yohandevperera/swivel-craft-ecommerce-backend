@@ -13,6 +13,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from './auth/roles.guard';
 import { CraftsModule } from './crafts/crafts.module';
 import { CraftsCommand } from './utls/seed-commands/craft.command';
+import { SeedAndRemoveAllCommand } from './utls/seed-commands/seed-remove-all.command';
 
 /**
  * Usage and Description - This file will act as the main
@@ -37,6 +38,12 @@ const developmentDBURL = `mongodb://${process.env.DATABASE_USERNAME}:${process.e
     CraftsModule,
   ],
   controllers: [AppController],
-  providers: [AppService, CraftCategoriesCommand, UserCommand, CraftsCommand],
+  providers: [
+    AppService,
+    CraftCategoriesCommand,
+    UserCommand,
+    CraftsCommand,
+    SeedAndRemoveAllCommand,
+  ],
 })
 export class AppModule {}
