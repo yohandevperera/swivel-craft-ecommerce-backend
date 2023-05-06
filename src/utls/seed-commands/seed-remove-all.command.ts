@@ -5,7 +5,7 @@ import * as bcrypt from 'bcryptjs';
 
 import { CraftsService } from 'src/crafts/crafts.service';
 import { CraftCategoriesService } from 'src/craft-categories/craft-categories.service';
-import { UserService } from 'src/user/user.service';
+// import { UserService } from 'src/user/user.service';
 
 import * as craftCategories from '../meta-data/craft-categories.json';
 import * as users from '../meta-data/users.json';
@@ -22,7 +22,7 @@ import * as crafts from '../meta-data/crafts.json';
 export class SeedAndRemoveAllCommand {
   constructor(
     private readonly craftCategoriesService: CraftCategoriesService,
-    private readonly usersService: UserService,
+    // private readonly usersService: UserService,
     private readonly craftsService: CraftsService,
   ) {}
 
@@ -69,19 +69,19 @@ export class SeedAndRemoveAllCommand {
   })
   async removeAllMetaData() {
     try {
-      const removeUsersResponse = await this.usersService.bulkRemoveUser();
+      // const removeUsersResponse = await this.usersService.bulkRemoveUser();
       const removeCraftCategoriesResponse =
         await this.craftCategoriesService.bulkRemoveCraftCategories();
       const removeCraftsResponse = await this.craftsService.bulkRemoveCraft();
 
       if (
-        _.isEmpty(removeUsersResponse) &&
+        // _.isEmpty(removeUsersResponse) &&
         _.isEmpty(removeCraftCategoriesResponse) &&
         _.isEmpty(removeCraftsResponse)
       ) {
         console.log('Error Removing Meta Data');
       } else {
-        console.log(removeUsersResponse);
+        // console.log(removeUsersResponse);
         console.log(removeCraftCategoriesResponse);
         console.log(removeCraftsResponse);
         console.log('Meta Data Removed Successfully');
@@ -103,7 +103,7 @@ export class SeedAndRemoveAllCommand {
       const mappedUsers = await Promise.all(remappedUsersPromise).then(
         async (users) => users,
       );
-      return this.usersService.bulkInsertUsers(mappedUsers);
+      // return this.usersService.bulkInsertUsers(mappedUsers);
     }
   }
 
