@@ -40,7 +40,7 @@ export class UsersService {
    * @parms id @typedef string
    * @returns @typedef Promise<UserDto>
    */
-  async findOne(id: number) {
+  async findOne(id: string) {
     return this.usersModel.findById(id, {
       firstname: 1,
       email: 1,
@@ -77,7 +77,7 @@ export class UsersService {
    * @parms id @typedef string
    * @returns @typedef Promise<UserDto>
    */
-  async remove(id: number) {
+  async remove(id: string) {
     return this.usersModel.deleteOne({ id });
   }
 
@@ -111,5 +111,12 @@ export class UsersService {
   async findUser(username: string): Promise<User | undefined> {
     const user = await this.usersModel.findOne({ username: username });
     return user;
+  }
+
+  async findUserByName(firstName: string) {
+    return this.usersModel.find(
+      { firstname: firstName },
+      { firstname: 1, email: 1, phone: 1, password: 0, userRole: 1 },
+    );
   }
 }

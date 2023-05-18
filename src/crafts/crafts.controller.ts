@@ -145,4 +145,23 @@ export class CraftsController {
       return errorRes((error as Error).message);
     }
   }
+
+  @Get('find-by-name/:name')
+  @ApiOkResponse({ description: 'Craft fetched successfully' })
+  @ApiParam({
+    type: String,
+    name: 'name',
+  })
+  async findOneByName(@Param() params: any) {
+    try {
+      const craft = await this.craftsService.findCraftByName(params.name);
+      if (_.isEmpty(craft)) {
+        return errorRes('Error fetching craft');
+      }
+      return successRes('Craft fetched successfully', craft);
+    } catch (error) {
+      this.logger.error((error as Error).message);
+      return errorRes((error as Error).message);
+    }
+  }
 }

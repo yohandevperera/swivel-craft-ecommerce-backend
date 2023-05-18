@@ -6,36 +6,159 @@ import {
   Patch,
   Param,
   Delete,
+  Logger,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { UserDto } from './dto/create-update-user.dto';
+import { UserDto, UserParamsDto } from './dto/create-update-user.dto';
+import {
+  ApiBody,
+  ApiCreatedResponse,
+  ApiOkResponse,
+  ApiParam,
+} from '@nestjs/swagger';
+import { errorRes, successRes } from 'src/utls/response.formatter';
+import _ = require('lodash');
 
-@Controller('users')
+/**
+ * Usage and Description - This file will act as a controller file which
+ * will act as a mediator between the defined service methods and api routes
+ * of the User resource
+ **/
+
+@Controller('api/users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly logger: Logger,
+  ) {}
 
+  /**
+   * Usage - This method will be used to create a new User
+   *
+   * @parms createUserDto @typedef UserDto
+   */
   @Post()
-  create(@Body() createUserDto: UserDto) {
-    return this.usersService.create(createUserDto);
+  @UsePipes(new ValidationPipe())
+  @ApiCreatedResponse({ description: 'User created successfully' })
+  @ApiBody({ type: UserDto })
+  async create(@Body() createUser: UserDto) {
+    try {
+      const createdUser = await this.usersService.create(createUser);
+      return successRes('User created successfully', createdUser);
+    } catch (error) {
+      this.logger.error((error as Error).message);
+      return errorRes((error as Error).message);
+    }
   }
 
+  /**
+   * Usage - This method will be used to fetch all created User
+   *
+   */
   @Get()
-  findAll() {
-    return this.usersService.findAll();
+  @ApiOkResponse({ description: 'User fetched successfully' })
+  async findAll() {
+    try {
+      const User = await this.usersService.findAll();
+      if (_.isEmpty(User)) {
+        return errorRes('Error fetching User ');
+      }
+      return successRes('User fetched successfully', User);
+    } catch (error) {
+      this.logger.error((error as Error).message);
+      return errorRes((error as Error).message);
+    }
   }
 
+  /**
+   * Usage - This method will be used to fetch a User  for a given
+   * User  id
+   *
+   * @parms params @typedef UserParamsDto
+   */
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+  @ApiOkResponse({ description: 'User fetched successfully' })
+  @ApiParam({
+    type: String,
+    name: 'id',
+  })
+  async findOne(@Param() params: UserParamsDto) {
+    try {
+      const User = await this.usersService.findOne(params.id);
+      if (_.isEmpty(User)) {
+        return errorRes('Error fetching User ');
+      }
+      return successRes('User fetched successfully', User);
+    } catch (error) {
+      this.logger.error((error as Error).message);
+      return errorRes((error as Error).message);
+    }
   }
 
+  /**
+   * Usage - This method will be used to update an User  for a given
+   * User  id
+   *
+   * @parms params @typedef UserParamsDto
+   * @parms updateUser @typedef UserDto
+   */
   // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateUserDto: UserDto) {
-  //   return this.usersService.update(+id, updateUserDto);
+  // @UsePipes(new ValidationPipe())
+  // @ApiCreatedResponse({ description: 'User updated successfully' })
+  // @ApiParam({
+  //   type: String,
+  //   name: 'id',
+  // })
+  // async update(@Param() params: UserParamsDto, @Body() updateUser: UserDto) {
+  //   try {
+  //     const updatedUser = await this.usersService.update(params.id, updateUser);
+  //     return successRes('User updated successfully', updatedUser);
+  //   } catch (error) {
+  //     this.logger.error((error as Error).message);
+  //     return errorRes((error as Error).message);
+  //   }
   // }
 
+  /**
+   * Usage - This method will be used to remove a User  for a given
+   * User  id
+   *
+   * @parms params @typedef UserParamsDto
+   */
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+  @ApiOkResponse({ description: 'User removed successfully' })
+  @ApiParam({
+    type: String,
+    name: 'id',
+  })
+  async remove(@Param() params: UserParamsDto) {
+    try {
+      const deletedUser = await this.usersService.remove(params.id);
+      return successRes('User removed successfully', deletedUser);
+    } catch (error) {
+      this.logger.error((error as Error).message);
+      return errorRes((error as Error).message);
+    }
+  }
+
+  @Get('find-by-name/:name')
+  @ApiOkResponse({ description: 'User fetched successfully' })
+  @ApiParam({
+    type: String,
+    name: 'name',
+  })
+  async findOneByName(@Param() params: any) {
+    try {
+      const User = await this.usersService.findUserByName(params.name);
+      if (_.isEmpty(User)) {
+        return errorRes('Error fetching User');
+      }
+      return successRes('User fetched successfully', User);
+    } catch (error) {
+      this.logger.error((error as Error).message);
+      return errorRes((error as Error).message);
+    }
   }
 }

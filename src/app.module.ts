@@ -9,7 +9,6 @@ import { CraftCategoriesModule } from './craft-categories/craft-categories.modul
 import { CraftsModule } from './crafts/crafts.module';
 import { CraftsCommand } from './utls/seed-commands/craft.command';
 import { SeedAndRemoveAllCommand } from './utls/seed-commands/seed-remove-all.command';
-import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 
 /**
@@ -31,7 +30,6 @@ const developmentDBURL = `mongodb://${process.env.DATABASE_USERNAME}:${process.e
     CommandModule,
     CraftCategoriesModule,
     CraftsModule,
-    AuthModule,
     UsersModule,
   ],
   controllers: [AppController],

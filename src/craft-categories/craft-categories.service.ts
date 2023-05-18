@@ -103,4 +103,12 @@ export class CraftCategoriesService {
   async bulkRemoveCraftCategories() {
     return this.craftCategoriesModel.remove({});
   }
+
+  async findCraftCategoryByName(name: string) {
+    return this.craftCategoriesModel.find({ name: name }, { name: 1 });
+  }
+
+  async findAllCraftCategoriesByName() {
+    return this.craftCategoriesModel.find({}, { name: 1, _id: 0 });
+  }
 }

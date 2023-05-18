@@ -100,4 +100,11 @@ export class CraftsService {
   async bulkRemoveCraft() {
     return this.craftsModel.remove({});
   }
+
+  async findCraftByName(name: string) {
+    return this.craftsModel.find(
+      { name: name },
+      { name: 1, description: 1, qty: 1, price: 1, photo: 1, categoryId: 1 },
+    );
+  }
 }

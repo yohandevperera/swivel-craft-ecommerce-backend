@@ -5,6 +5,6 @@
  **/
 
 export const craftCategoryStub = (): any => ({
-  _id: '64229dfa1f396b074aea09c4',
-  name: 'Test Glass Crafts',
-});
+    _id: '64229dfa1f396b074aea09c4',
+    name: 'Test Glass Crafts',
+  });

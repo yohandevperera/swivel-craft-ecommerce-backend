@@ -89,7 +89,7 @@ export class CraftCategoriesController {
    *
    * @parms params @typedef CraftCategoryParamsDto
    */
-  @Get(':id')
+  @Get('get-craft-category/:id')
   @ApiOkResponse({ description: 'Craft category fetched successfully' })
   @ApiParam({
     type: String,
@@ -163,6 +163,45 @@ export class CraftCategoriesController {
       return successRes(
         'Craft category removed successfully',
         deletedCraftcategory,
+      );
+    } catch (error) {
+      this.logger.error((error as Error).message);
+      return errorRes((error as Error).message);
+    }
+  }
+
+  @Get('find-by-name/:name')
+  @ApiOkResponse({ description: 'Craft Category fetched successfully' })
+  @ApiParam({
+    type: String,
+    name: 'name',
+  })
+  async findOneByName(@Param() params: any) {
+    try {
+      const craft = await this.craftCategoriesService.findCraftCategoryByName(
+        params.name,
+      );
+      if (_.isEmpty(craft)) {
+        return errorRes('Error fetching craft');
+      }
+      return successRes('Craft Category fetched successfully', craft);
+    } catch (error) {
+      this.logger.error((error as Error).message);
+      return errorRes((error as Error).message);
+    }
+  }
+
+  @Get('get-category-by-name')
+  @ApiOkResponse({ description: 'Craft categories fetched successfully' })
+  async getCraftCategoriesbyName() {
+    try {
+      const craftCategories = await this.craftCategoriesService.findAllCraftCategoriesByName();
+      if (_.isEmpty(craftCategories)) {
+        return errorRes('Error fetching craft categories');
+      }
+      return successRes(
+        'Craft categories fetched successfully',
+        craftCategories,
       );
     } catch (error) {
       this.logger.error((error as Error).message);
