@@ -10,6 +10,7 @@ import { CraftsModule } from './crafts/crafts.module';
 import { CraftsCommand } from './utls/seed-commands/craft.command';
 import { SeedAndRemoveAllCommand } from './utls/seed-commands/seed-remove-all.command';
 import { UsersModule } from './users/users.module';
+import { OrdersModule } from './orders/orders.module';
 
 /**
  * Usage and Description - This file will act as the main
@@ -31,6 +32,7 @@ const developmentDBURL = `mongodb://${process.env.DATABASE_USERNAME}:${process.e
     CraftCategoriesModule,
     CraftsModule,
     UsersModule,
+    OrdersModule,
   ],
   controllers: [AppController],
   providers: [
