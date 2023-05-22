@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { UserDto } from './dto/create-update-user.dto';
+import { UserDto, UserLoginParamsDto } from './dto/create-update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from 'src/schemas/user.schema';
 import { Model } from 'mongoose';
@@ -16,6 +16,7 @@ export class UsersService {
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
     return await this.usersModel.create({
       password: hashedPassword,
+      userRole: 'USER',
       ...createUserDto,
     });
   }
@@ -45,7 +46,6 @@ export class UsersService {
       firstname: 1,
       email: 1,
       phone: 1,
-      userRole: 1,
     });
   }
 
@@ -117,6 +117,13 @@ export class UsersService {
     return this.usersModel.find(
       { firstname: firstName },
       { firstname: 1, email: 1, phone: 1, password: 0, userRole: 1 },
+    );
+  }
+
+  async validateUser(user: UserLoginParamsDto) {
+    return this.usersModel.find(
+      { email: user.email, password: user.password },
+      { firstname: 1, email: 1, userRole: 1 },
     );
   }
 }

@@ -11,7 +11,11 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { UserDto, UserParamsDto } from './dto/create-update-user.dto';
+import {
+  UserDto,
+  UserLoginParamsDto,
+  UserParamsDto,
+} from './dto/create-update-user.dto';
 import {
   ApiBody,
   ApiCreatedResponse,
@@ -156,6 +160,23 @@ export class UsersController {
         return errorRes('Error fetching User');
       }
       return successRes('User fetched successfully', User);
+    } catch (error) {
+      this.logger.error((error as Error).message);
+      return errorRes((error as Error).message);
+    }
+  }
+
+  @Post('login')
+  @UsePipes(new ValidationPipe())
+  @ApiCreatedResponse({ description: 'User logged in successfully' })
+  @ApiBody({ type: UserLoginParamsDto })
+  async login(@Body() user: UserLoginParamsDto) {
+    try {
+      const User = await this.usersService.validateUser(user);
+      if (_.isEmpty(User)) {
+        return errorRes('Error logging', {}, 401);
+      }
+      return successRes('User logged in successfully', User);
     } catch (error) {
       this.logger.error((error as Error).message);
       return errorRes((error as Error).message);

@@ -28,3 +28,13 @@ export class UserParamsDto {
   @IsNotEmpty()
   id: string;
 }
+
+export class UserLoginParamsDto {
+  @IsString()
+  @IsNotEmpty()
+  email: string;
+
+  @IsString()
+  @IsNotEmpty()
+  password: string;
+}
