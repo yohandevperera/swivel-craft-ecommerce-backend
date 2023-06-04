@@ -3,6 +3,7 @@ import { CraftDto } from './dto/create-update-craft.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Craft, CraftDocument } from 'src/schemas/craft.schema';
 import { Model } from 'mongoose';
+import _ = require('lodash');
 
 /**
  * Usage and Description - This file will directly call the
@@ -106,5 +107,29 @@ export class CraftsService {
       { name: name },
       { name: 1, description: 1, qty: 1, price: 1, photo: 1, categoryId: 1 },
     );
+  }
+
+  async updateCraftQty(craftId: string, qtyBought: number) {
+    try {
+      if (!_.isEmpty(craftId) || _.isNumber(qtyBought)) {
+        const craftItemStockQty = await this.craftsModel.find(
+          { _id: craftId },
+          { qty: 1 },
+        );
+        if (_.isNumber(craftItemStockQty[0].qty)) {
+          const updatedQty = craftItemStockQty[0].qty - qtyBought;
+          return this.craftsModel.updateOne(
+            { _id: craftId },
+            {
+              $set: {
+                qty: updatedQty,
+              },
+            },
+          );
+        }
+      }
+    } catch (error) {
+      return error;
+    }
   }
 }
