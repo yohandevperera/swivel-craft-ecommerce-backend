@@ -27,20 +27,24 @@ export class OrderService {
    * @parms createOrder @typedef OrderDto
    * @returns @typedef Promise<OrderDto>
    */
-  async create(createOrder: OrderDto) {
-    if (!_.isEmpty(createOrder.craftId) || _.isNumber(createOrder.qtyBought)) {
-      const updatedCraftQty = await this.craftService.updateCraftQty(
-        createOrder.craftId,
-        createOrder.qtyBought,
-      );
-      if (!_.isUndefined(updatedCraftQty)) {
-        return new this.orderModel({
-          orderId: createOrder.orderId,
-          craftId: createOrder.craftId,
-          userId: createOrder.userId,
-          totalPrice: createOrder.totalPrice,
-        }).save();
+  async create(orders: OrderDto[]) {
+    if (!_.isEmpty(orders)) {
+      let updateCraftQty;
+      orders.map(async (order: OrderDto) => {
+        updateCraftQty = await this.craftService.updateCraftQty(
+          order.craftId,
+          order.qtyBought,
+        );
+      });
+      const restrcutredOrderData = orders.map((order: OrderDto) => ({
+        craftId: order.craftId,
+        userId: order.userId,
+        orderId: order.orderId,
+        totalPrice: order.totalPrice,
+      }));
+      if (!_.isUndefined(updateCraftQty)) {
       }
+      return this.orderModel.insertMany(restrcutredOrderData);
     }
   }
 

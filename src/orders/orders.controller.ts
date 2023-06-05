@@ -41,7 +41,7 @@ export class OrdersController {
   @UsePipes(new ValidationPipe())
   @ApiCreatedResponse({ description: 'Order created successfully' })
   @ApiBody({ type: OrderDto })
-  async create(@Body() createOrder: OrderDto) {
+  async create(@Body() createOrder: OrderDto[]) {
     try {
       const createdOrder = await this.orderService.create(createOrder);
       return successRes('Order created successfully', createdOrder);
