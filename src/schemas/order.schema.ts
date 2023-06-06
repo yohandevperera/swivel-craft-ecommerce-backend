@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import mongoose, { HydratedDocument, Types } from 'mongoose';
 
 /**
  * Usage and Description - This file will also act skeleton for to create
@@ -16,10 +16,10 @@ export class Order {
   orderId: string;
 
   @Prop()
-  userId: string;
+  userId: Types.ObjectId;
 
   @Prop()
-  craftId: string;
+  craftId: Types.ObjectId;
 
   @Prop()
   totalPrice: number;

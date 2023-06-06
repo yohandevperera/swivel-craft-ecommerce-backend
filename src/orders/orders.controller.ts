@@ -76,7 +76,7 @@ export class OrdersController {
    *
    * @parms params @typedef OrderParamsDto
    */
-  @Get(':id')
+  @Get('get-order/:id')
   @ApiOkResponse({ description: 'Order fetched successfully' })
   @ApiParam({
     type: String,
@@ -89,6 +89,25 @@ export class OrdersController {
         return errorRes('Error fetching order ');
       }
       return successRes('Order fetched successfully', order);
+    } catch (error) {
+      this.logger.error((error as Error).message);
+      return errorRes((error as Error).message);
+    }
+  }
+
+  /**
+   * Usage - This method will be used to fetch all created Order
+   *
+   */
+  @Get('/get-orders')
+  @ApiOkResponse({ description: 'Order fetched successfully' })
+  async getOrders() {
+    try {
+      const orders = await this.orderService.getOrders();
+      if (_.isEmpty(orders)) {
+        return errorRes('Error fetching order ');
+      }
+      return successRes('Orders fetched successfully', orders);
     } catch (error) {
       this.logger.error((error as Error).message);
       return errorRes((error as Error).message);

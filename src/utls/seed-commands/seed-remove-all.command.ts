@@ -10,6 +10,7 @@ import { CraftCategoriesService } from 'src/craft-categories/craft-categories.se
 import * as craftCategories from '../meta-data/craft-categories.json';
 import * as users from '../meta-data/users.json';
 import * as crafts from '../meta-data/crafts.json';
+import { OrderService } from 'src/orders/orders.service';
 
 /**
  * Usage and Description - This file will be used as custom command file
@@ -24,6 +25,7 @@ export class SeedAndRemoveAllCommand {
     private readonly craftCategoriesService: CraftCategoriesService,
     // private readonly usersService: UserService,
     private readonly craftsService: CraftsService,
+    private readonly ordersService: OrderService,
   ) {}
 
   /**
@@ -73,17 +75,20 @@ export class SeedAndRemoveAllCommand {
       const removeCraftCategoriesResponse =
         await this.craftCategoriesService.bulkRemoveCraftCategories();
       const removeCraftsResponse = await this.craftsService.bulkRemoveCraft();
+      const removeOrdersResponse = await this.ordersService.bulkRemoveOrder();
 
       if (
         // _.isEmpty(removeUsersResponse) &&
         _.isEmpty(removeCraftCategoriesResponse) &&
-        _.isEmpty(removeCraftsResponse)
+        _.isEmpty(removeCraftsResponse) &&
+        _.isEmpty(removeOrdersResponse)
       ) {
         console.log('Error Removing Meta Data');
       } else {
         // console.log(removeUsersResponse);
         console.log(removeCraftCategoriesResponse);
         console.log(removeCraftsResponse);
+        console.log(removeOrdersResponse);
         console.log('Meta Data Removed Successfully');
       }
     } catch (error) {
