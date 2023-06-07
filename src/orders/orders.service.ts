@@ -99,7 +99,39 @@ export class OrderService {
    * @returns @typedef Promise<OrderDto>
    */
   async findOne(id: string) {
-    return this.orderModel.findById(id);
+    return this.orderModel.aggregate([
+      {
+        $lookup: {
+          from: 'crafts',
+          localField: 'craftId',
+          foreignField: '_id',
+          as: 'crafts_info',
+        },
+      },
+      { $unwind: '$crafts_info' },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'userId',
+          foreignField: '_id',
+          as: 'users_info',
+        },
+      },
+      { $unwind: '$users_info' },
+      {
+        $project: {
+          _id: 1,
+          totalPrice: 1,
+          itemName: '$crafts_info.name',
+          itemPrice: '$crafts_info.price',
+          orderId: 1,
+          email: '$users_info.email',
+        },
+      },
+      {
+        $match: { _id: new mongoose.Types.ObjectId(id) },
+      },
+    ]);
   }
 
   async bulkRemoveOrder() {
