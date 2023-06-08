@@ -41,18 +41,17 @@ export class SeedAndRemoveAllCommand {
     try {
       const seedUsersResponse = await this.insertUsers();
       const seedCraftCategoriesResponse = await this.insertCraftCategories();
-      const seedCraftResponse = await this.insertCrafts();
-
+      // const seedCraftResponse = await this.insertCrafts();
       if (
         _.isEmpty(seedUsersResponse) &&
-        _.isEmpty(seedCraftCategoriesResponse) &&
-        _.isEmpty(seedCraftResponse)
+        _.isEmpty(seedCraftCategoriesResponse)
+        // _.isEmpty(seedCraftResponse)
       ) {
         console.log('Error Inserting Meta Data');
       } else {
         console.log(seedUsersResponse);
         console.log(seedCraftCategoriesResponse);
-        console.log(seedCraftResponse);
+        // console.log(seedCraftResponse);
         console.log('Meta Data Inserted Successfully');
       }
     } catch (error) {

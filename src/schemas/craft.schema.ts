@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { HydratedDocument, Types } from 'mongoose';
 
 /**
  * Usage and Description - This file will also act skeleton for to create
@@ -16,7 +16,7 @@ export class Craft {
   name: string;
 
   @Prop()
-  categoryId: string;
+  categoryId: Types.ObjectId;
 
   @Prop({ maxlength: 400 })
   description: string;

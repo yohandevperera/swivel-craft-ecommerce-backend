@@ -62,6 +62,7 @@ export class CraftsController {
   async findAll() {
     try {
       const craft = await this.craftsService.findAll();
+      console.log(craft);
       if (_.isEmpty(craft)) {
         return errorRes('Error fetching craft ');
       }

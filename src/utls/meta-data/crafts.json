@@ -1,7 +1,7 @@
 [
   {
     "name": "Painted Wine Bottle Vases",
-    "categoryId": "64229dfa1f396b074aea09c4",
+    "categoryId": "648178e47230213cb758159e",
     "description": "",
     "qty": "10",
     "price": "3000",
@@ -9,7 +9,7 @@
   },
   {
     "name": "Fluid Art",
-    "categoryId": "64229dfa1f396b074aea09c2",
+    "categoryId": "648178e47230213cb758159f",
     "description": "",
     "qty": "10",
     "price": "5000",
@@ -17,7 +17,7 @@
   },
   {
     "name": "Fringe Chandelier",
-    "categoryId": "64229dfa1f396b074aea09c0",
+    "categoryId": "648178e47230213cb75815a0",
     "description": "",
     "qty": "10",
     "price": "10000",
@@ -25,7 +25,7 @@
   },
   {
     "name": "Boho Vases",
-    "categoryId": "64229dfa1f396b074aea09c4",
+    "categoryId": "648178e47230213cb75815a1",
     "description": "",
     "qty": "10",
     "price": "2500",
@@ -33,7 +33,7 @@
   },
   {
     "name": "Rag Rug ",
-    "categoryId": "64229dfa1f396b074aea09c0",
+    "categoryId": "648178e47230213cb75815a2",
     "description": "",
     "qty": "10",
     "price": "3500",

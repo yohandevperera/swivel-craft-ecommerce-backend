@@ -5,8 +5,6 @@ import { Order, OrderDocument } from 'src/schemas/order.schema';
 import mongoose, { Model } from 'mongoose';
 import _ = require('lodash');
 import { CraftsService } from 'src/crafts/crafts.service';
-import { Craft } from 'src/schemas/craft.schema';
-import { User } from 'src/schemas/user.schema';
 
 /**
  * Usage and Description - This file will directly call the
