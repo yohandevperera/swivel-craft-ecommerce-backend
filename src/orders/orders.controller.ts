@@ -113,4 +113,42 @@ export class OrdersController {
       return errorRes((error as Error).message);
     }
   }
+
+  /**
+   * Usage - This method will be used to fetch all created Order
+   *
+   */
+  @Get('/get-total-sales')
+  @ApiOkResponse({ description: 'Total sales fetched successfully' })
+  async getTotalSales() {
+    try {
+      const totalSales = await this.orderService.getTotalSales();
+      if (_.isEmpty(totalSales)) {
+        return errorRes('Error fetching total sales ');
+      }
+      return successRes('Total sales fetched successfully', totalSales);
+    } catch (error) {
+      this.logger.error((error as Error).message);
+      return errorRes((error as Error).message);
+    }
+  }
+
+  /**
+   * Usage - This method will be used to fetch all created Order
+   *
+   */
+  @Get('/get-top-sales')
+  @ApiOkResponse({ description: 'Top sales fetched successfully' })
+  async getTopSales() {
+    try {
+      const topSales = await this.orderService.getTopSales();
+      if (_.isEmpty(topSales)) {
+        return errorRes('Error fetching top sales ');
+      }
+      return successRes('Top sales fetched successfully', topSales);
+    } catch (error) {
+      this.logger.error((error as Error).message);
+      return errorRes((error as Error).message);
+    }
+  }
 }

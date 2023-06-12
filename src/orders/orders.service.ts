@@ -42,7 +42,6 @@ export class OrderService {
         orderId: order.orderId,
         totalPrice: order.totalPrice,
       }));
-      console.log(restrcutredOrderData);
       if (!_.isUndefined(updateCraftQty)) {
         return [];
       }
@@ -166,5 +165,23 @@ export class OrderService {
         },
       },
     ]);
+  }
+
+  async getTopSales() {
+    const topSales = await this.orderModel.aggregate([
+      { $group: { _id: '$craftId', totalOrders: { $sum: 1 } } },
+      { $sort: { totalOrders: -1 } },
+      { $limit: 1 },
+    ]);
+    return {
+      topSales: topSales[0].totalOrders,
+    };
+  }
+
+  async getTotalSales() {
+    const totalSales = await this.orderModel.count();
+    return {
+      totalSales: totalSales,
+    };
   }
 }
