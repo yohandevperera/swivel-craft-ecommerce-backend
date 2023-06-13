@@ -111,6 +111,14 @@ export class CraftCategoriesService {
     return this.craftCategoriesModel.remove({});
   }
 
+  /**
+   * Usage - This method will be used to remove all craft category name in
+   * the defined craft category collection
+   *
+   * Note - this method will be used only in the defined seeders
+   *
+   * @returns @typedef Promise<any>
+   */
   async findCraftCategoryByName(name: string) {
     return this.craftCategoriesModel.find({ name: name }, { name: 1 });
   }

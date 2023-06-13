@@ -170,6 +170,12 @@ export class CraftCategoriesController {
     }
   }
 
+   /**
+   * Usage - This method will be used to fetch a craft category for a given
+   * craft category name
+   *
+   * @parms params @typedef string
+   */
   @Get('find-by-name/:name')
   @ApiOkResponse({ description: 'Craft Category fetched successfully' })
   @ApiParam({

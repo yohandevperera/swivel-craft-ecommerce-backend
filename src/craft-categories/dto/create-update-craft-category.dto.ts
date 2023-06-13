@@ -1,6 +1,12 @@
 import { IsString, MinLength, MaxLength, IsNotEmpty } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
+/**
+ *
+ * The below class will be used to validate the craft category payload in create and update crafts
+ *
+ */
+
 export class CraftCategoryDto {
   @IsString()
   @IsNotEmpty()
@@ -9,6 +15,12 @@ export class CraftCategoryDto {
   @ApiProperty({ type: String, description: 'name' })
   name: string;
 }
+
+/**
+ *
+ * The below class will be used to validate the craft category params
+ *
+ */
 
 export class CraftCategoryParamsDto {
   @IsString()
