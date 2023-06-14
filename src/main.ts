@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { systemLogger } from './utls/logger';
 import { DocumentBuilder } from '@nestjs/swagger';
 import { SwaggerModule } from '@nestjs/swagger/dist';
+import * as bodyParser from 'body-parser';
 
 /**
  * Usage and Description - This file will act as the main
@@ -15,6 +16,8 @@ async function bootstrap() {
     logger: systemLogger,
   });
   app.enableCors();
+  app.use(bodyParser.json({ limit: '50mb' }));
+  app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
   const options = new DocumentBuilder()
     .setTitle('Craft E-commerce API')
     .setDescription(

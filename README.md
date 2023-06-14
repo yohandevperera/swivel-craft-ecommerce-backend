@@ -124,10 +124,10 @@ https://cloud.google.com/sdk/docs/install
  gcloud auth login
  
  # Create a docker tag
- docker tag swviel-employee-manager-backend gcr.io/{project-name}/swviel-craft-e-commerce-backend
+ docker tag swviel-craft-e-commerce-backend gcr.io/swivel-craft-ecommerce-backend/swviel-craft-e-commerce-backend
  
  # Push the docker image to the container registry
- docker push gcr.io/{project-name}/swviel-craft-e-commerce-backend
+ docker push gcr.io/swivel-craft-ecommerce-backend/swviel-craft-e-commerce-backend
  
 ```
 

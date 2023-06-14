@@ -5,11 +5,12 @@ import * as bcrypt from 'bcryptjs';
 
 import { CraftsService } from 'src/crafts/crafts.service';
 import { CraftCategoriesService } from 'src/craft-categories/craft-categories.service';
-import { UserService } from 'src/user/user.service';
+import { UsersService } from 'src/users/users.service';
 
 import * as craftCategories from '../meta-data/craft-categories.json';
 import * as users from '../meta-data/users.json';
 import * as crafts from '../meta-data/crafts.json';
+import { OrderService } from 'src/orders/orders.service';
 
 /**
  * Usage and Description - This file will be used as custom command file
@@ -22,8 +23,9 @@ import * as crafts from '../meta-data/crafts.json';
 export class SeedAndRemoveAllCommand {
   constructor(
     private readonly craftCategoriesService: CraftCategoriesService,
-    private readonly usersService: UserService,
+    private readonly usersService: UsersService,
     private readonly craftsService: CraftsService,
+    private readonly ordersService: OrderService,
   ) {}
 
   /**
@@ -40,7 +42,6 @@ export class SeedAndRemoveAllCommand {
       const seedUsersResponse = await this.insertUsers();
       const seedCraftCategoriesResponse = await this.insertCraftCategories();
       const seedCraftResponse = await this.insertCrafts();
-
       if (
         _.isEmpty(seedUsersResponse) &&
         _.isEmpty(seedCraftCategoriesResponse) &&
@@ -73,17 +74,20 @@ export class SeedAndRemoveAllCommand {
       const removeCraftCategoriesResponse =
         await this.craftCategoriesService.bulkRemoveCraftCategories();
       const removeCraftsResponse = await this.craftsService.bulkRemoveCraft();
+      const removeOrdersResponse = await this.ordersService.bulkRemoveOrder();
 
       if (
         _.isEmpty(removeUsersResponse) &&
         _.isEmpty(removeCraftCategoriesResponse) &&
-        _.isEmpty(removeCraftsResponse)
+        _.isEmpty(removeCraftsResponse) &&
+        _.isEmpty(removeOrdersResponse)
       ) {
         console.log('Error Removing Meta Data');
       } else {
         console.log(removeUsersResponse);
         console.log(removeCraftCategoriesResponse);
         console.log(removeCraftsResponse);
+        console.log(removeOrdersResponse);
         console.log('Meta Data Removed Successfully');
       }
     } catch (error) {
@@ -100,7 +104,7 @@ export class SeedAndRemoveAllCommand {
         };
       });
 
-      const mappedUsers = await Promise.all(remappedUsersPromise).then(
+      const mappedUsers: any[] = await Promise.all(remappedUsersPromise).then(
         async (users) => users,
       );
       return this.usersService.bulkInsertUsers(mappedUsers);

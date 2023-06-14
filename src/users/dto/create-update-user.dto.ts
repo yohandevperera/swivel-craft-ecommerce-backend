@@ -1,6 +1,10 @@
-import { IsString, IsNotEmpty, IsDefined, IsEnum } from 'class-validator';
+import { IsString, IsNotEmpty, IsDefined, IsEnum, IsNumber } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { userRoleEnum } from 'src/auth/roles';
+
+enum UserRole {
+  'ADMIN',
+  'USER',
+}
 
 export class UserDto {
   @IsString()
@@ -13,10 +17,10 @@ export class UserDto {
   @ApiProperty({ type: String, description: 'email' })
   email: string;
 
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
   @ApiProperty({ type: String, description: 'phone' })
-  phone: string;
+  phone: number;
 
   @IsString()
   @IsNotEmpty()
@@ -24,12 +28,23 @@ export class UserDto {
   password: string;
 
   @IsDefined()
-  @IsEnum([userRoleEnum.ADMIN, userRoleEnum.USER])
-  userRole: userRoleEnum | string;
+  @IsEnum(['USER', 'ADMIN'])
+  @ApiProperty({ enum: UserRole, description: 'userRole' })
+  userRole: UserRole.ADMIN | UserRole.USER;
 }
 
 export class UserParamsDto {
   @IsString()
   @IsNotEmpty()
   id: string;
+}
+
+export class UserLoginParamsDto {
+  @IsString()
+  @IsNotEmpty()
+  email: string;
+
+  @IsString()
+  @IsNotEmpty()
+  password: string;
 }

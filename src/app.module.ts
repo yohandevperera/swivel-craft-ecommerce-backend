@@ -6,14 +6,11 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CraftCategoriesCommand } from './utls/seed-commands/craft-category.command';
 import { CraftCategoriesModule } from './craft-categories/craft-categories.module';
-import { UserModule } from './user/user.module';
-import { UserCommand } from './utls/seed-commands/user.command';
-import { AuthModule } from './auth/auth.module';
-import { APP_GUARD } from '@nestjs/core';
-import { RolesGuard } from './auth/roles.guard';
 import { CraftsModule } from './crafts/crafts.module';
 import { CraftsCommand } from './utls/seed-commands/craft.command';
 import { SeedAndRemoveAllCommand } from './utls/seed-commands/seed-remove-all.command';
+import { UsersModule } from './users/users.module';
+import { OrdersModule } from './orders/orders.module';
 
 /**
  * Usage and Description - This file will act as the main
@@ -33,15 +30,14 @@ const developmentDBURL = `mongodb://${process.env.DATABASE_USERNAME}:${process.e
     ),
     CommandModule,
     CraftCategoriesModule,
-    UserModule,
-    AuthModule,
     CraftsModule,
+    UsersModule,
+    OrdersModule,
   ],
   controllers: [AppController],
   providers: [
     AppService,
     CraftCategoriesCommand,
-    UserCommand,
     CraftsCommand,
     SeedAndRemoveAllCommand,
   ],

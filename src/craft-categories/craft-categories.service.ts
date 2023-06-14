@@ -38,7 +38,10 @@ export class CraftCategoriesService {
    * @returns @typedef Promise<CraftCategoryDto[]>
    */
   async findAll() {
-    return this.craftCategoriesModel.find();
+    return this.craftCategoriesModel.find(
+      {},
+      { createdAt: 0, updatedAt: 0, __v: 0 },
+    );
   }
 
   /**
@@ -49,7 +52,11 @@ export class CraftCategoriesService {
    * @returns @typedef Promise<CraftCategoryDto>
    */
   async findOne(id: string) {
-    return this.craftCategoriesModel.findById(id);
+    return this.craftCategoriesModel.findById(id, {
+      __v: 0,
+      createdAt: 0,
+      updatedAt: 0,
+    });
   }
 
   /**
@@ -102,5 +109,21 @@ export class CraftCategoriesService {
    */
   async bulkRemoveCraftCategories() {
     return this.craftCategoriesModel.remove({});
+  }
+
+  /**
+   * Usage - This method will be used to remove all craft category name in
+   * the defined craft category collection
+   *
+   * Note - this method will be used only in the defined seeders
+   *
+   * @returns @typedef Promise<any>
+   */
+  async findCraftCategoryByName(name: string) {
+    return this.craftCategoriesModel.find({ name: name }, { name: 1 });
+  }
+
+  async findAllCraftCategoriesByName() {
+    return this.craftCategoriesModel.find({}, { name: 1, _id: 0 });
   }
 }

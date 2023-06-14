@@ -4,16 +4,16 @@
  **/
 
 export const craftCategoriesStub = (): any[] => [
-  {
-    _id: '64229dfa1f396b074aea09c2',
-    name: 'Test Papercraft',
-  },
-  {
-    _id: '64229dfa1f396b074aea09c3',
-    name: 'Test Book-binding',
-  },
-  {
-    _id: '64229dfa1f396b074aea09c4',
-    name: 'Test Glass Crafts',
-  },
-];
+    {
+      _id: '64229dfa1f396b074aea09c2',
+      name: 'Test Papercraft',
+    },
+    {
+      _id: '64229dfa1f396b074aea09c3',
+      name: 'Test Book-binding',
+    },
+    {
+      _id: '64229dfa1f396b074aea09c4',
+      name: 'Test Glass Crafts',
+    },
+  ];

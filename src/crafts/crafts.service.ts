@@ -2,7 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { CraftDto } from './dto/create-update-craft.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Craft, CraftDocument } from 'src/schemas/craft.schema';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
+import _ = require('lodash');
 
 /**
  * Usage and Description - This file will directly call the
@@ -25,7 +26,15 @@ export class CraftsService {
    * @returns @typedef Promise<CraftDto>
    */
   async create(createCraft: CraftDto) {
-    return new this.craftsModel(createCraft).save();
+    const restrcutredCreateCraft = {
+      categoryId: new mongoose.Types.ObjectId(createCraft.categoryId),
+      description: createCraft.description,
+      name: createCraft.name,
+      photo: createCraft.photo,
+      price: createCraft.price,
+      qty: createCraft.qty,
+    };
+    return new this.craftsModel(restrcutredCreateCraft).save();
   }
 
   /**
@@ -35,7 +44,28 @@ export class CraftsService {
    * @returns @typedef Promise<CraftDto[]>
    */
   async findAll() {
-    return this.craftsModel.find();
+    return this.craftsModel.aggregate([
+      {
+        $lookup: {
+          from: 'craftcategories',
+          localField: 'categoryId',
+          foreignField: '_id',
+          as: 'crafts_category_info',
+        },
+      },
+      { $unwind: '$crafts_category_info' },
+      {
+        $project: {
+          _id: 1,
+          name: 1,
+          description: 1,
+          qty: 1,
+          price: 1,
+          photo: 1,
+          categoryName: '$crafts_category_info.name',
+        },
+      },
+    ]);
   }
 
   /**
@@ -58,9 +88,17 @@ export class CraftsService {
    * @returns @typedef Promise<CraftDto>
    */
   async update(id: string, updateCraft: CraftDto) {
+    const restrcutredUpdateCraft = {
+      categoryId: new mongoose.Types.ObjectId(updateCraft.categoryId),
+      description: updateCraft.description,
+      name: updateCraft.name,
+      photo: updateCraft.photo,
+      price: updateCraft.price,
+      qty: updateCraft.qty,
+    };
     return this.craftsModel.updateOne(
       { _id: id },
-      { $set: { ...updateCraft } },
+      { $set: { ...restrcutredUpdateCraft } },
     );
   }
 
@@ -85,8 +123,18 @@ export class CraftsService {
    * @returns @typedef Promise<CraftDto[]>
    */
 
-  async bulkInsertCraft(craft: any[]) {
-    return this.craftsModel.insertMany(craft);
+  async bulkInsertCraft(crafts: any[]) {
+    if (!_.isEmpty(crafts)) {
+      const restrcutredCraftData: any[] = crafts.map((craft: CraftDto) => ({
+        categoryId: new mongoose.Types.ObjectId(craft.categoryId),
+        description: craft.description,
+        name: craft.name,
+        photo: craft.photo,
+        price: craft.price,
+        qty: craft.qty,
+      }));
+      return this.craftsModel.insertMany(restrcutredCraftData);
+    }
   }
 
   /**
@@ -99,5 +147,36 @@ export class CraftsService {
    */
   async bulkRemoveCraft() {
     return this.craftsModel.remove({});
+  }
+
+  async findCraftByName(name: string) {
+    return this.craftsModel.find(
+      { name: name },
+      { name: 1, description: 1, qty: 1, price: 1, photo: 1, categoryId: 1 },
+    );
+  }
+
+  async updateCraftQty(craftId: string, qtyBought: number) {
+    try {
+      if (!_.isEmpty(craftId) || _.isNumber(qtyBought)) {
+        const craftItemStockQty = await this.craftsModel.find(
+          { _id: craftId },
+          { qty: 1 },
+        );
+        if (_.isNumber(craftItemStockQty[0].qty)) {
+          const updatedQty = craftItemStockQty[0].qty - qtyBought;
+          return this.craftsModel.updateOne(
+            { _id: craftId },
+            {
+              $set: {
+                qty: updatedQty,
+              },
+            },
+          );
+        }
+      }
+    } catch (error) {
+      return error;
+    }
   }
 }

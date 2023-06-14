@@ -28,12 +28,10 @@ export class CraftDto {
   description: string;
 
   @IsNumber()
-  @IsString()
   @ApiProperty({ type: String, description: 'qty' })
   qty: number;
 
   @IsNumber()
-  @IsString()
   @ApiProperty({ type: String, description: 'price' })
   price: number;
 
