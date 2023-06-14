@@ -5,7 +5,7 @@ import * as bcrypt from 'bcryptjs';
 
 import { CraftsService } from 'src/crafts/crafts.service';
 import { CraftCategoriesService } from 'src/craft-categories/craft-categories.service';
-// import { UserService } from 'src/user/user.service';
+import { UsersService } from 'src/users/users.service';
 
 import * as craftCategories from '../meta-data/craft-categories.json';
 import * as users from '../meta-data/users.json';
@@ -23,7 +23,7 @@ import { OrderService } from 'src/orders/orders.service';
 export class SeedAndRemoveAllCommand {
   constructor(
     private readonly craftCategoriesService: CraftCategoriesService,
-    // private readonly usersService: UserService,
+    private readonly usersService: UsersService,
     private readonly craftsService: CraftsService,
     private readonly ordersService: OrderService,
   ) {}
@@ -41,17 +41,17 @@ export class SeedAndRemoveAllCommand {
     try {
       const seedUsersResponse = await this.insertUsers();
       const seedCraftCategoriesResponse = await this.insertCraftCategories();
-      // const seedCraftResponse = await this.insertCrafts();
+      const seedCraftResponse = await this.insertCrafts();
       if (
         _.isEmpty(seedUsersResponse) &&
-        _.isEmpty(seedCraftCategoriesResponse)
-        // _.isEmpty(seedCraftResponse)
+        _.isEmpty(seedCraftCategoriesResponse) &&
+        _.isEmpty(seedCraftResponse)
       ) {
         console.log('Error Inserting Meta Data');
       } else {
         console.log(seedUsersResponse);
         console.log(seedCraftCategoriesResponse);
-        // console.log(seedCraftResponse);
+        console.log(seedCraftResponse);
         console.log('Meta Data Inserted Successfully');
       }
     } catch (error) {
@@ -70,21 +70,21 @@ export class SeedAndRemoveAllCommand {
   })
   async removeAllMetaData() {
     try {
-      // const removeUsersResponse = await this.usersService.bulkRemoveUser();
+      const removeUsersResponse = await this.usersService.bulkRemoveUser();
       const removeCraftCategoriesResponse =
         await this.craftCategoriesService.bulkRemoveCraftCategories();
       const removeCraftsResponse = await this.craftsService.bulkRemoveCraft();
       const removeOrdersResponse = await this.ordersService.bulkRemoveOrder();
 
       if (
-        // _.isEmpty(removeUsersResponse) &&
+        _.isEmpty(removeUsersResponse) &&
         _.isEmpty(removeCraftCategoriesResponse) &&
         _.isEmpty(removeCraftsResponse) &&
         _.isEmpty(removeOrdersResponse)
       ) {
         console.log('Error Removing Meta Data');
       } else {
-        // console.log(removeUsersResponse);
+        console.log(removeUsersResponse);
         console.log(removeCraftCategoriesResponse);
         console.log(removeCraftsResponse);
         console.log(removeOrdersResponse);
@@ -104,10 +104,10 @@ export class SeedAndRemoveAllCommand {
         };
       });
 
-      const mappedUsers = await Promise.all(remappedUsersPromise).then(
+      const mappedUsers: any[] = await Promise.all(remappedUsersPromise).then(
         async (users) => users,
       );
-      // return this.usersService.bulkInsertUsers(mappedUsers);
+      return this.usersService.bulkInsertUsers(mappedUsers);
     }
   }
 

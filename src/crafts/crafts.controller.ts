@@ -58,15 +58,14 @@ export class CraftsController {
    *
    */
   @Get()
-  @ApiOkResponse({ description: 'Craft fetched successfully' })
+  @ApiOkResponse({ description: 'Crafts fetched successfully' })
   async findAll() {
     try {
       const craft = await this.craftsService.findAll();
-      console.log(craft);
       if (_.isEmpty(craft)) {
         return errorRes('Error fetching craft ');
       }
-      return successRes('Craft fetched successfully', craft);
+      return successRes('Crafts fetched successfully', craft);
     } catch (error) {
       this.logger.error((error as Error).message);
       return errorRes((error as Error).message);
