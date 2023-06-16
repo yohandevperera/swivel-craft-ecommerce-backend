@@ -5,6 +5,12 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Order, OrderSchema } from 'src/schemas/order.schema';
 import { CraftsModule } from 'src/crafts/crafts.module';
 
+/**
+ * Usage and Description - This file will act as a wrapper to
+ * combine the model functions, service functions and controller functions in the orders resource
+ *
+ **/
+
 @Module({
   imports: [
     MongooseModule.forFeature([

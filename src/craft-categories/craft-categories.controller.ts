@@ -197,6 +197,11 @@ export class CraftCategoriesController {
     }
   }
 
+   /**
+   * Usage - This method will be used to fetch a craft category names in the 
+   * defined craft category collection
+   *
+   */
   @Get('get-category-by-name')
   @ApiOkResponse({ description: 'Craft categories fetched successfully' })
   async getCraftCategoriesbyName() {

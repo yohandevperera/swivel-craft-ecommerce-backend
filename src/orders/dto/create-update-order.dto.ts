@@ -7,6 +7,13 @@ import {
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
+
+/**
+ *
+ * The below class will be used to validate the order payload in create and update orders
+ *
+ */
+
 export class OrderDto {
   @IsString()
   @IsNotEmpty()
@@ -35,6 +42,12 @@ export class OrderDto {
   @ApiProperty({ type: String, description: 'qtyBought' })
   qtyBought: number;
 }
+
+/**
+ *
+ * The below class will be used to validate the orders params
+ *
+ */
 
 export class OrderParamsDto {
   @IsString()
