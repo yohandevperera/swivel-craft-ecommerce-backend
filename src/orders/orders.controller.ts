@@ -71,8 +71,8 @@ export class OrdersController {
   }
 
   /**
-   * Usage - This method will be used to fetch a order  for a given
-   * order  id
+   * Usage - This method will be used to fetch a order for a given
+   * order id
    *
    * @parms params @typedef OrderParamsDto
    */
@@ -96,7 +96,7 @@ export class OrdersController {
   }
 
   /**
-   * Usage - This method will be used to fetch all created Order
+   * Usage - This method will be used to fetch all created orders and craft details
    *
    */
   @Get('/get-orders')
@@ -115,7 +115,7 @@ export class OrdersController {
   }
 
   /**
-   * Usage - This method will be used to fetch all created Order
+   * Usage - This method will be used to fetch all total sales in order collection
    *
    */
   @Get('/get-total-sales')
@@ -134,7 +134,7 @@ export class OrdersController {
   }
 
   /**
-   * Usage - This method will be used to fetch all created Order
+   * Usage - This method will be used fetch all top sales in order collection
    *
    */
   @Get('/get-top-sales')

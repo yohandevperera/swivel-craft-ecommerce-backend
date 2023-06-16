@@ -8,7 +8,7 @@ import { CraftsService } from 'src/crafts/crafts.service';
 
 /**
  * Usage and Description - This file will directly call the
- * model and the defined craft collection to perfom the CRUD operations
+ * model and the defined orders collection to perfom the CRUD operations
  *
  **/
 
@@ -21,10 +21,10 @@ export class OrderService {
   ) {}
 
   /**
-   * Usage - This method will be used to create a craft object in the
-   * craft collection
+   * Usage - This method will be used to create a order object in the
+   * orders collection
    *
-   * @parms createOrder @typedef OrderDto
+   * @parms orders @typedef OrderDto[]
    * @returns @typedef Promise<OrderDto>
    */
   async create(orders: OrderDto[]) {
@@ -50,8 +50,8 @@ export class OrderService {
   }
 
   /**
-   * Usage - This method will be used to fetch all craft objects in the
-   * crafts collection
+   * Usage - This method will be used to fetch all orders objects in the
+   * orders collection
    *
    * @returns @typedef Promise<OrderDto[]>
    */
@@ -89,8 +89,8 @@ export class OrderService {
   }
 
   /**
-   * Usage - This method will be used to fetch an craft object for a
-   * given craft  id from the craft  collection
+   * Usage - This method will be used to fetch an order object for a
+   * given order id from the orders collection
    *
    * @parms id @typedef string
    * @returns @typedef Promise<OrderDto>
@@ -131,10 +131,22 @@ export class OrderService {
     ]);
   }
 
+  /**
+   * Usage - This method will be used to remove all orders in
+   * the defined orders collection
+   *
+   * @returns @typedef Promise<any>
+   */
   async bulkRemoveOrder() {
     return this.orderModel.remove({});
   }
 
+  /**
+   * Usage - This method will be used to fetch an order object and
+   * craft details from the orders collection and crafts collection
+   *
+   * @returns @typedef Promise<any[]>
+   */
   async getOrders() {
     return this.orderModel.aggregate([
       {
@@ -167,6 +179,12 @@ export class OrderService {
     ]);
   }
 
+   /**
+   * Usage - This method will be used to fetch the top sales
+   * using the craft id and order data
+   *
+   * @returns @typedef Promise<number>
+   */
   async getTopSales() {
     const topSales = await this.orderModel.aggregate([
       { $group: { _id: '$craftId', totalOrders: { $sum: 1 } } },
@@ -178,6 +196,13 @@ export class OrderService {
     };
   }
 
+  
+   /**
+   * Usage - This method will be used to fetch the total sales
+   * using the order data
+   *
+   * @returns @typedef Promise<number>
+   */
   async getTotalSales() {
     const totalSales = await this.orderModel.count();
     return {

@@ -3,7 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 /**
  *
- * The below class will be used to validate the craft category payload in create and update crafts
+ * The below class will be used to validate the craft category payload in create and update craft categories
  *
  */
 

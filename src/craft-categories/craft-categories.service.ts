@@ -104,7 +104,7 @@ export class CraftCategoriesService {
    * the defined craft category collection
    *
    * Note - this method will be used only in the defined seeders
-   *
+   * 
    * @returns @typedef Promise<any>
    */
   async bulkRemoveCraftCategories() {
@@ -112,17 +112,22 @@ export class CraftCategoriesService {
   }
 
   /**
-   * Usage - This method will be used to remove all craft category name in
+   * Usage - This method will be used to find a craft category by giving a name from
    * the defined craft category collection
    *
-   * Note - this method will be used only in the defined seeders
-   *
+   * @parms name @typedef string
    * @returns @typedef Promise<any>
    */
   async findCraftCategoryByName(name: string) {
     return this.craftCategoriesModel.find({ name: name }, { name: 1 });
   }
 
+  /**
+   * Usage - This method will return all the craft category names in the 
+   * defined craft category collection
+   *
+   * @returns @typedef Promise<any>
+   */
   async findAllCraftCategoriesByName() {
     return this.craftCategoriesModel.find({}, { name: 1, _id: 0 });
   }
